@@ -55,7 +55,7 @@ class Menu:
             nextpos = self.topleft[0], self.topleft[1] + (self.item_spacing + self.title_size)
             for item in self.items:
                 if self.items.index(item) == selected:
-                    text = "->" + item['name']
+                    text = "-> " + item['name']
                 else:
                     text = item['name']
                 draw_text(text, self.screen, nextpos, size=self.item_size, color=item['color'])
