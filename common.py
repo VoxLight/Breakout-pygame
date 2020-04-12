@@ -2,7 +2,7 @@ import random, sys
 import pygame
 
 FPS = 60
-RES = HEIGHT, WIDTH = 800, 600
+
 BLACK, WHITE, RED, GREEN, BLUE = [
     (0, 0, 0), 
     (255, 255, 255), 
@@ -10,6 +10,17 @@ BLACK, WHITE, RED, GREEN, BLUE = [
     (0, 255, 0), 
     (0, 0, 255)
 ]
+
+
+resolutions = [
+    (800,600), 
+    (1024, 768), 
+    (1280, 1024), 
+    (1366, 768),
+    (1600, 1080),
+    (1920, 1080)
+]
+
 
 
 def ran_color():

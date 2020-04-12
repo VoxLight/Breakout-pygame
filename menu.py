@@ -59,6 +59,7 @@ class Menu:
                     text = "-> " + item['name']
                 else:
                     text = item['name']
+                print(item['color'])
                 draw_text(text, self.screen, nextpos, size=self.item_size, color=item['color'])
                 nextpos = nextpos[0], nextpos[1] + (self.item_spacing + self.item_size)
 
