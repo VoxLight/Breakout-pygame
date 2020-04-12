@@ -27,8 +27,7 @@ def main():
     mm.add_item('Quit', callback='exit')
 
     # main game loop
-    while True:
-        mm.activate()
+    mm.activate()
 
         
 
