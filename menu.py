@@ -22,9 +22,10 @@ class Menu:
     def activate(self):
         self.is_active = True
         selected = 0
+        #TODO: Make this event loop more concise
+        # and easier to expand upon in the future
         while self.is_active:
             for event in pygame.event.get():
-                print(event)
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
