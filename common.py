@@ -16,7 +16,7 @@ def ran_color():
     return (random.randint(0, 255) for _ in range(3))
 
 
-def draw_text(text, surface, pos, font=None, size=20, color=(255,255,255)):
+def draw_text(text, surface, pos, font=None, size=20, color=WHITE):
     if font is None:
         font = pygame.font.SysFont(None,size)
     textobj = font.render(text, 1, color)
