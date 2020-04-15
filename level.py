@@ -74,7 +74,7 @@ class Level:
             if pygame.sprite.spritecollide(self.paddle, self.balls, False):
                 diff = (self.paddle.rect.x + self.paddle.rect.width/2) - (self.ball.rect.x+self.ball.rect.width/2)
                 self.ball.bounce_v(diff)
-                self.sound.paddle_collide()
+                self.sound.play_paddle_collide()
                 # self.ball.rect.y = HEIGHT - self.paddle.rect.height - self.ball.rect.height - 1
                 
             
@@ -82,23 +82,27 @@ class Level:
                 if self.ball.rect.y <= b_col[-1].rect.y - (b_col[-1].rect.height/2):
                     # Hit was above
                     self.ball.bounce_v(0)
+                    self.sound.play_brick_collide()
                     
 
                 elif self.ball.rect.y >= b_col[-1].rect.y + (b_col[-1].rect.height/2):
                     # Hit was below
                     self.ball.bounce_v(0)
+                    self.sound.play_brick_collide()
 
                 if self.ball.rect.x < b_col[-1].rect.x:
                     # Hit was left
                     self.ball.bounce_h(0)
+                    self.sound.play_brick_collide()
                     
 
                 elif self.ball.rect.x > b_col[-1].rect.x:
                     # Hit was right
                     self.ball.bounce_h(0)
+                    self.sound.play_brick_collide()
 
                 # self.ball.bounce(0)
-                self.sound.play_brick_collide()
+                
                 b_col[-1].kill()
 
 
