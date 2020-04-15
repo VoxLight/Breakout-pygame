@@ -46,10 +46,18 @@ class Level:
             if not self.is_level_select:
                 if len(self.bricks.sprites()) == 0:
                     if level_files.index(self.fp) == len(level_files) - 1:
-                        self.active = False
+                        self.is_active = False
+                        self.is_loaded = False
+                        self.bricks = pygame.sprite.Group()
                         break
                     self.fp = level_files[level_files.index(self.fp)+1]
                     self.load()
+            else:
+                if len(self.bricks.sprites()) == 0:
+                    self.is_active = False
+                    self.is_loaded = False
+                    self.bricks = pygame.sprite.Group()
+                    break
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
