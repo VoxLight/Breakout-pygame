@@ -1,17 +1,40 @@
 import pygame
-class Paddle:
-    def __init__(self):
-        pass
+import math
 
-class Ball:
-    def __init__(self):
-        pass
 
-class Game:
+Paddle = pygame.Rect(
+            pygame.display.get_surface().get_width()//2,
+            pygame.display.get_surface().get_height()//8,
+            20,
+            4
+        )
+        
 
+class Ball(pygame.sprite.Sprite):
     def __init__(self):
-        ds = pygame.display.get_surface().get_size()
-        self.paddle_pos = ds[0]-(ds[0]//8)
-        self.ball_pos = self.ball_x, self.ball_y = ds[0]//2, ds[1]//2
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(f"./images/ball.jpg")
+        self.rect = self.image.get_rect()
+        self.pos = self.x, self.y = (
+            pygame.display.get_surface().get_width()//2,
+            pygame.display.get_surface().get_height()//8+self.rect.height
+        )
+    
+    def collided_with_sprite(self, sprite):
+        spos = sprite.rect.x, sprite.rect.y
+        dist = math.sqrt(((self.x-spos[0])**2)+((self.y-spos[1])**2))
+        return 
+
+    def update(self):
+        self.rect.center = self.pos
+
+class Brick(pygame.sprite.Sprite):
+    def __init__(self, pos, color='red'):
+        pygame.sprite.Sprite.__init__(self)
+        self.pos = self.x, self.y = pos
+        self.color = color
+        self.image = pygame.image.load(f"./images/bricks/{self.color}.jpg")
+        self.rect = self.image.get_rect()
+        self.rect.center = self.pos
         
 
