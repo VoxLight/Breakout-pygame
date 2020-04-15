@@ -1,4 +1,4 @@
-import random, sys
+import random, sys, glob
 import pygame
 
 FPS = 60
@@ -11,9 +11,16 @@ BLACK, WHITE, RED, GREEN, BLUE = [
     (0, 0, 255)
 ]
 
+level_files = [fp for fp in glob.glob("./levels/base_stages/level_*.json")]
+
+RES = WIDTH, HEIGHT = pygame.display.get_surface().get_size()
 
 
 
+
+# from https://forum.processing.org/one/topic/recreate-map-function.html
+def map(value, istart, istop, ostart, ostop):
+    return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))
 
 
 def ran_color():

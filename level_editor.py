@@ -72,6 +72,7 @@ class LevelEditor:
                     elif event.key == pygame.K_q:
                         self.bricks.empty()
                         self.is_active = False
+                        break
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 3:

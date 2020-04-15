@@ -2,16 +2,36 @@
 import pygame
 pygame.mixer.pre_init(44100, -16, 1, 512)
 pygame.init()
-
-from common import *
-pygame.display.set_mode((800, 600), 0)
-
-
 from pygame.locals import *
+
+from tkinter import Tk, filedialog
+
+pygame.display.set_mode((800, 600), 0)
+from common import *
+
+
 
 from menu import Menu
 from audio import Audio
 from level_editor import LevelEditor
+from level import Level
+
+
+
+def new_level(clock):
+    Level(clock).activate()
+
+
+def level_select(clock):
+    root = Tk()
+    fp = filedialog.askopenfilename(
+        initialdir="./levels",
+        filetypes=[("Json", "*.json"), ("All", "*.*")]
+    )
+    root.destroy()
+    if not fp:
+        return
+    Level(clock, fp, level_select=True).activate()
 
 
 def play_intro_sequence(clock, sound):
@@ -47,9 +67,6 @@ def play_intro_sequence(clock, sound):
 
         
 
-
-
-
 def update_mode(mode):
     pygame.display.set_mode(pygame.display.get_surface().get_size(), mode)
 
@@ -82,8 +99,8 @@ def main():
 
     mm = Menu('Main Menu', CLOCK)
 
-    mm.add_item('New Game')
-    mm.add_item('Level Select')
+    mm.add_item('New Game', callback=lambda: new_level(CLOCK))
+    mm.add_item('Level Select', callback=lambda: level_select(CLOCK))
     mm.add_item('Stage Editor', callback=LevelEditor(CLOCK).activate)
     mm.add_item('Options', callback=op.activate)
     mm.add_item('Quit', callback='exit')

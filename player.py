@@ -1,13 +1,20 @@
 import pygame
 import math
 
+from common import *
 
-Paddle = pygame.Rect(
+
+class Paddle(pygame.sprite.Sprite):
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.rect = pygame.Rect(
             pygame.display.get_surface().get_width()//2,
-            pygame.display.get_surface().get_height()//8,
-            20,
-            4
+            pygame.display.get_surface().get_height()-(pygame.display.get_surface().get_height()//8),
+            120,
+            6
         )
+
         
 
 class Ball(pygame.sprite.Sprite):
@@ -15,18 +22,48 @@ class Ball(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(f"./images/ball.jpg")
         self.rect = self.image.get_rect()
-        self.pos = self.x, self.y = (
-            pygame.display.get_surface().get_width()//2,
-            pygame.display.get_surface().get_height()//8+self.rect.height
-        )
+        self.crash = False
+        self.direction = 200
+        self.speed = 4
+
+
+    def bounce_v(self, diff):
+        self.direction = (180 - self.direction) % 360
+        self.direction -= diff
+
+    def bounce_h(self, diff):
+        self.direction = (360 - self.direction) % 360
+        self.direction -= diff
     
-    def collided_with_sprite(self, sprite):
-        spos = sprite.rect.x, sprite.rect.y
-        dist = math.sqrt(((self.x-spos[0])**2)+((self.y-spos[1])**2))
-        return 
 
     def update(self):
-        self.rect.center = self.pos
+        direction_radians = math.radians(self.direction)
+
+        self.rect.x -= self.speed * math.sin(direction_radians)
+        self.rect.y += self.speed * math.cos(direction_radians)
+
+        # Do we bounce off the top of the screen?
+        if self.rect.y <= 0:
+            self.bounce_v(0)
+            self.rect.y = 2
+
+        # Do we bounce off the left of the screen?
+        if self.rect.x <= 0:
+            self.direction = (360 - self.direction) % 360
+            self.rect.x = 2
+
+        # Do we bounce off the right side of the screen?
+        if self.rect.x >= WIDTH - self.rect.width:
+            self.direction = (360 - self.direction) % 360
+            self.x = WIDTH - self.rect.width - 1
+
+        # Did we fall off the bottom edge of the screen?
+        if self.rect.y >= HEIGHT:
+            self.crash = True
+
+    def draw(self):
+        screen = pygame.display.get_surface()
+        screen.blit(self.image, self.rect)
 
 class Brick(pygame.sprite.Sprite):
     def __init__(self, pos, color='red'):
@@ -36,5 +73,9 @@ class Brick(pygame.sprite.Sprite):
         self.image = pygame.image.load(f"./images/bricks/{self.color}.jpg")
         self.rect = self.image.get_rect()
         self.rect.center = self.pos
+
+    def draw(self):
+        screen = pygame.display.get_surface()
+        screen.blit(self.image, self.rect)
         
 
