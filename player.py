@@ -14,6 +14,7 @@ class Paddle(pygame.sprite.Sprite):
             120,
             6
         )
+        self.speed = 5
 
         
 
@@ -24,7 +25,7 @@ class Ball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.crash = False
         self.direction = 200
-        self.speed = 4
+        self.speed = 5
 
 
     def bounce_v(self, diff):
@@ -45,12 +46,12 @@ class Ball(pygame.sprite.Sprite):
         # Do we bounce off the top of the screen?
         if self.rect.y <= 0:
             self.bounce_v(0)
-            self.rect.y = 2
+            self.rect.y = 1
 
         # Do we bounce off the left of the screen?
         if self.rect.x <= 0:
             self.direction = (360 - self.direction) % 360
-            self.rect.x = 2
+            self.rect.x = 1
 
         # Do we bounce off the right side of the screen?
         if self.rect.x >= WIDTH - self.rect.width:

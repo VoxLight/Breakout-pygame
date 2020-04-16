@@ -72,10 +72,10 @@ class Level:
             # Handle Paddle Movement
             keys = pygame.key.get_pressed()
             if keys[pygame.K_LEFT]:
-                self.paddle.rect.x -= 5 # Move paddle left
+                self.paddle.rect.x -= self.paddle.speed # Move paddle left
 
-            elif keys[pygame.K_RIGHT]:
-                self.paddle.rect.x += 5 # Move paddle right
+            if keys[pygame.K_RIGHT]:
+                self.paddle.rect.x += self.paddle.speed # Move paddle right
 
             b_col = pygame.sprite.spritecollide(self.ball, self.bricks, False)
 
@@ -87,31 +87,41 @@ class Level:
                 
             
             elif len(b_col) > 0:
-                if self.ball.rect.y <= b_col[-1].rect.y - (b_col[-1].rect.height/2):
-                    # Hit was above
-                    self.ball.bounce_v(0)
-                    self.sound.play_brick_collide()
-                    
 
-                elif self.ball.rect.y >= b_col[-1].rect.y + (b_col[-1].rect.height/2):
-                    # Hit was below
-                    self.ball.bounce_v(0)
-                    self.sound.play_brick_collide()
-
-                if self.ball.rect.x < b_col[-1].rect.x:
+                if self.ball.rect.left <= b_col[-1].rect.left:
                     # Hit was left
-                    self.ball.bounce_h(0)
+                    self.ball.bounce_h(3)
                     self.sound.play_brick_collide()
-                    
+                    b_col[-1].kill()
 
-                elif self.ball.rect.x > b_col[-1].rect.x:
+
+                elif self.ball.rect.right > b_col[-1].rect.right:
                     # Hit was right
-                    self.ball.bounce_h(0)
+                    self.ball.bounce_h(3)
                     self.sound.play_brick_collide()
+                    b_col[-1].kill()
 
-                # self.ball.bounce(0)
+
+                elif self.ball.rect.top <= b_col[-1].rect.top:
+                    # Hit was above
+                    self.ball.bounce_v(3)
+                    self.sound.play_brick_collide()
+                    b_col[-1].kill()
+
+
+                elif self.ball.rect.bottom >= b_col[-1].rect.bottom:
+                    # Hit was below
+                    self.ball.bounce_v(3)
+                    self.sound.play_brick_collide()
+                    b_col[-1].kill()
+
+
                 
-                b_col[-1].kill()
+
+
+                
+
+                
 
 
 
@@ -126,6 +136,12 @@ class Level:
 
             # update and draw the ball
             self.ball.update()
+            
+            if self.ball.crash:
+                self.is_active = False
+                self.bricks.empty()
+                break
+                
             self.ball.draw()
 
             screen.blit(self.ball.image, self.ball.rect)

@@ -51,19 +51,15 @@ def play_intro_sequence(clock, sound):
         pygame.display.update()
         pygame.time.delay(5)
 
-    pygame.time.delay(1000)
 
 
     # Fade out
-    print("Start Fade Out")
     for alpha in range(300, 0, -1):
         title_card.set_alpha(alpha)
         screen.fill(BLACK)
         screen.blit(title_card, screen.get_rect())
         pygame.display.update()
         pygame.time.delay(5)
-
-    print("done")
 
         
 
